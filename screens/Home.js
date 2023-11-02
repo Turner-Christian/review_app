@@ -1,23 +1,25 @@
-import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, Button, FlatList, TouchableOpacity } from 'react-native';
+import { globalStyles } from '../styles/global';
 
-const Home = () => {
+export default function Home({ navigation }) {
+    const [reviews, setReviews] = useState([
+        { title: 'Zelda', rating: 5, body: 'lorem Ipsum', key: '1' },
+        { title: 'Pokemon', rating: 4, body: 'lorem Ipsum', key: '2' },
+        { title: 'Final Fantasy', rating: 2, body: 'lorem Ipsum', key: '3' }
+    ])
     return (
-        <View style={styles.container}>
-            <Text style={styles.titleText}>Home Screen</Text>
+        <View style={globalStyles.container}>
+            <FlatList
+                data={reviews}
+                renderItem={({ item }) => (
+                    <TouchableOpacity 
+                        onPress={() => navigation.navigate('Review-Details', item)}>
+                        <Text style={globalStyles.titleText}>{item.title}</Text>
+                    </TouchableOpacity>
+                )}
+            />
         </View>
     )
 }
 
-export default Home
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 24,
-    },
-
-    titleText: {
-        // fontFamily: 'nunito-bold',
-        fontSize: 18,
-    }
-})

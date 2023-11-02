@@ -1,29 +1,21 @@
+import 'react-native-gesture-handler';
 import React, { useState, useCallback } from "react";
-import Home from "./screens/Home";
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import { View } from "react-native";
-
-SplashScreen.preventAutoHideAsync();
-
+import { useFontLoader } from "./components/FontLoader";
+import { Navigator } from "./components/Navigator";
+import { DrawNav } from './components/DrawNav';
+import { View} from 'react-native'
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    'nunito-regular': require('./assets/fonts/NunitoSans_7pt-Bold.ttf'),
-    'nunito-bold': require('./assets/fonts/NunitoSans_7pt-Bold.ttf')
-  });
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
+  // BELOW CODE IS THE FONT LOADER AND HANDLER
+  const { fontsLoaded, onLayoutRootView } = useFontLoader();
   if (!fontsLoaded) {
     return null;
   }
 
+
+  // ACTUAL APP COMPONENT
   return (
-    <View onLayout={onLayoutRootView}>
-      <Home />
-    </View>
+    <>
+      <DrawNav onLayout={onLayoutRootView} />
+    </>
   )
 }
